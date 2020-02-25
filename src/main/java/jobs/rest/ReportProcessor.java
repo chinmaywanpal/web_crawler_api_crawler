@@ -17,7 +17,7 @@ class ReportProcessor {
    * Create individual rows
    * */
   private static void populateExcelSheet(Item item, Workbook workbook, Sheet sheet, int rowCount) {
-    Row row = sheet.createRow(rowCount);
+    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
     String id = item.getRecordID();
 
     /*
@@ -62,7 +62,7 @@ class ReportProcessor {
    * Check if record exists
    * */
   private static boolean recordExists(Workbook workbook, Sheet sheet, String id) {
-    for (int i = 0; i < sheet.getLastRowNum(); i++) {
+    for (int i = 1; i < sheet.getLastRowNum(); i++) {
       Cell cell = sheet.getRow(i).getCell(0);
       if (id.equalsIgnoreCase(cell.getStringCellValue())) {
         return true;

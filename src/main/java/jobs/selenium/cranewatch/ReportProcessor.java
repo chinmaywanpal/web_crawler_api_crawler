@@ -14,11 +14,11 @@ import utils.ExcelHelper;
 class ReportProcessor {
 
   private static void populateExcelSheet(Item item, Workbook workbook, Sheet sheet, int rowCount) {
-    Row row = sheet.createRow(rowCount);
+    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
     // Assumption that projectName_Location is unique
     String id = item.getProjectName() + "_" + item.getLocation();
 
-    if (recordExists(workbook, sheet, id)) {
+    if (!recordExists(workbook, sheet, id)) {
 
       Cell cell = row.createCell(0);
       cell.setCellValue(id);
@@ -68,8 +68,11 @@ class ReportProcessor {
     file.close();
   }
 
+  /*
+   * Check if record exists
+   * */
   private static boolean recordExists(Workbook workbook, Sheet sheet, String id) {
-    for (int i = 0; i < sheet.getLastRowNum(); i++) {
+    for (int i = 1; i < sheet.getLastRowNum(); i++) {
       Cell cell = sheet.getRow(i).getCell(0);
       if (id.equalsIgnoreCase(cell.getStringCellValue())) {
         return true;
